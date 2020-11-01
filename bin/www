@@ -104,6 +104,6 @@ const wsHandler = require('../wsApp')
  * webSocket连接
  */
 wss.on("connection", (ws, req) => {
-    console.log(roomList)
+    // console.log(roomList)
     wsHandler(ws, req)
 });

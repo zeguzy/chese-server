@@ -15,11 +15,24 @@ router.post('/login', function(ctx, next) {
     const {
         username
     } = ctx.request.body
-
-    let userInfo = {
-        id: getId(),
-        username
+    let userInfo = null
+    try {
+        userInfo = userList.get(username)
+    } catch (err) {
+        ctx.body = {
+            errn: '1',
+            mesg: 'mesg'
+        }
     }
+    if (!userInfo) {
+        userInfo = {
+            id: getId(),
+            username,
+            // gameRecords: [],
+            score: 1000
+        }
+    }
+
     userList.set(userInfo.id, {
         userInfo
     })
