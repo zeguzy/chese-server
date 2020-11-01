@@ -71,7 +71,7 @@ const match = (data) => {
         rightRoom.playerList.push(data)
 
         //更新
-        _noticeToPrepare(rightRoom, data)
+        _noticeToPrepare(rightRoom)
     }
 
 };
