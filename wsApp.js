@@ -10,7 +10,9 @@ const {
 const {
     forward,
     closeWs,
-    settlement
+    settlement,
+    settlementDraw,
+    draw
 } = require("./wsController/play");
 const {
     roomList
@@ -63,9 +65,16 @@ const wsHandler = (ws, req) => {
         if (mesg.header.action == "close") {
             closeWs(mesg.data);
         }
-        if (mesg.header.action == "Failure") {
+        if (mesg.header.action == "giveIn" || mesg.header.action == "Failure") {
             settlement(mesg.data);
         }
+        if (mesg.header.action == 'askDraw') {
+            settlementDraw(mesg.data)
+        }
+        if (mesg.header.action == 'agreeDraw') {
+            draw(mesg.data)
+        }
+
     });
 
     ws.on("close", function() {

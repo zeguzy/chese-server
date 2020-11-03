@@ -78,8 +78,59 @@ function settlement(data) {
     })
 }
 
+/**
+ * 双方平局 结算
+ * @param {*} data 
+ */
+function settlementDraw(data) {
+    console.log('结算')
+    console.log(data)
+    let {
+        userId,
+        roomId
+    } = data
+
+    let mesg = {
+        header: {
+            action: 'askDraw'
+        }
+    }
+
+    roomList.forEach(element => {
+        if (element.roomId == roomId) {
+            if (userId == roomId) {
+                element.playerList[1].ws.send(JSON.stringify(mesg))
+            } else {
+                element.playerList[0].ws.send(JSON.stringify(mesg))
+            }
+        }
+    })
+}
+
+function draw(data) {
+    let {
+        userId,
+        roomId
+    } = data
+
+    let mesg = {
+        header: {
+            action: 'draw'
+        }
+    }
+    roomList.forEach(element => {
+        if (element.roomId == roomId) {
+            element.playerList.forEach(player => {
+                player.ws.send(JSON.stringify(mesg))
+            })
+        }
+    })
+}
+
 module.exports = {
     forward,
     closeWs,
-    settlement
+    settlement,
+    settlementDraw,
+    draw
 }
